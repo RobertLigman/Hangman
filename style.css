@@ -1,0 +1,14 @@
+.hangman-placeholders,
+.letter {
+    margin: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    width: 30px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.hangman-placeholders {
+    border-bottom: 2px solid black;
+}
