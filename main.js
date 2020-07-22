@@ -2,6 +2,7 @@ const hangmanPropositions = ['drzewo', 'trawa'];
 const btn = document.querySelector('.start');
 const letterContainer = document.querySelector('.letter-container');
 const startRenderHangman = () => {
+    const tries = 5;
     const hangmanContainer = document.getElementById('hangman-letters-container');
     const el = document.querySelectorAll('.hangman-placeholders')
         // document.querySelector('.hangman-letters-container').removeChild(el);
@@ -23,7 +24,7 @@ const startRenderHangman = () => {
         hangmanContainer.appendChild(div)
     })
     renderLetters();
-    listenLetter(hangmanProposition);
+    listenLetter(hangmanProposition, tries);
 }
 btn.addEventListener('click', startRenderHangman);
 
@@ -32,6 +33,13 @@ btn.addEventListener('click', startRenderHangman);
 
 
 const renderLetters = function() {
+    const letter = document.querySelectorAll('.letter');
+
+    if (letter.length > 0) {
+        letter.forEach(element => {
+            letterContainer.removeChild(element);
+        })
+    }
     for (let i = 65; i < 90; i++) {
         const div = document.createElement('div');
         div.textContent = String.fromCharCode(i);
@@ -40,11 +48,23 @@ const renderLetters = function() {
     }
 }
 
-const listenLetter = (item) => {
+const listenLetter = (item, tries) => {
     const checkLetter = (ev) => {
         const filteredLetters = item.filter(el => el == ev.target.innerText)
         console.log(ev.target.innerText);
-        console.log(filteredLetters)
+        console.log(filteredLetters);
+
+        if (filteredLetters.length > 0) {
+            console.log(true);
+        } else {
+            if (!ev.target.classList.contains('disabled')) {
+                console.log('odejmuje')
+                    --tries;
+            }
+
+        }
+        ev.target.classList.add('disabled');
+        console.log(tries)
     }
     console.log([...letterContainer.children]);
     [...letterContainer.children].forEach(element => {

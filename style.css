@@ -16,3 +16,7 @@
 .hangman-placeholders {
     border-bottom: 2px solid black;
 }
+
+.disabled {
+    cursor: no-drop;
+}
