@@ -9,6 +9,10 @@
     text-align: center;
 }
 
+.letter {
+    cursor: pointer;
+}
+
 .hangman-placeholders {
     border-bottom: 2px solid black;
 }
