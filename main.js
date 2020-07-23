@@ -2,7 +2,7 @@ const hangmanPropositions = ['drzewo', 'trawa'];
 const btn = document.querySelector('.start');
 const letterContainer = document.querySelector('.letter-container');
 const startRenderHangman = () => {
-    const tries = 5;
+    const tries = 0;
     const hangmanContainer = document.getElementById('hangman-letters-container');
     const el = document.querySelectorAll('.hangman-placeholders')
         // document.querySelector('.hangman-letters-container').removeChild(el);
@@ -30,7 +30,7 @@ btn.addEventListener('click', startRenderHangman);
 
 
 
-
+const img = document.querySelector('.img-container img');
 
 const renderLetters = function() {
     const letter = document.querySelectorAll('.letter');
@@ -59,11 +59,13 @@ const listenLetter = (item, tries) => {
         } else {
             if (!ev.target.classList.contains('disabled')) {
                 console.log('odejmuje')
-                    --tries;
+                    ++tries;
             }
 
         }
+
         ev.target.classList.add('disabled');
+        img.src = `assets/level${tries<=6 ? tries : 6}.jpg`
         console.log(tries)
     }
     console.log([...letterContainer.children]);
