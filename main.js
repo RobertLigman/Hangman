@@ -2,10 +2,13 @@ const hangmanPropositions = ['drzewo', 'trawa'];
 const btn = document.querySelector('.start');
 const letterContainer = document.querySelector('.letter-container');
 const img = document.querySelector('.img-container img');
-
-
+const winnerOrLoser = document.querySelector('.winner-loser');
+let countGoodLetters = 0;
+let isStillInGame = false;
 const startRenderHangman = () => {
-    const finalAnwser = [];
+    isStillInGame = true;
+    winnerOrLoser.textContent = '';
+    countGoodLetters = 0;
     const tries = 0;
     const hangmanContainer = document.getElementById('hangman-letters-container');
     const el = document.querySelectorAll('.hangman-placeholders')
@@ -28,7 +31,7 @@ const startRenderHangman = () => {
         hangmanContainer.appendChild(div)
     })
     renderLetters();
-    listenLetter(hangmanProposition, tries, finalAnwser);
+    listenLetter(hangmanProposition, tries);
 }
 btn.addEventListener('click', startRenderHangman);
 
@@ -51,12 +54,16 @@ const renderLetters = function() {
         letterContainer.appendChild(div);
     }
 }
-const winnerOrLoser = document.querySelector('.winner-loser');
-let countGoodLetters = 0;
+
 const listenLetter = (item, tries, finalAnwser) => {
+
+
+
     const checkLetter = (ev) => {
-            const filteredLetters = item.filter(el => el == ev.target.innerText)
-                // console.log(ev.target.innerText);
+        if (isStillInGame) {
+
+
+            const filteredLetters = item.filter(el => el == ev.target.innerText);
             const placeletter = document.querySelectorAll('.hangman-placeholders');
             if (filteredLetters.length > 0) {
                 console.log(true);
@@ -69,25 +76,6 @@ const listenLetter = (item, tries, finalAnwser) => {
                         // console.log(countGoodLetters)
                     }
                 })
-
-
-                // placeletter.forEach((el, index) => {
-                //     // console.log(item)
-
-                //     if (el.textContent == item[index]) {
-                //         ++countGoodLetters;
-                //         console.log(el.textContent)
-                //         console.log(countGoodLetters)
-
-                //     }
-                if (countGoodLetters == item.length) {
-                    winnerOrLoser.textContent = 'Wygrałeś';
-                }
-                // })
-
-
-                // console.log(item);
-                // filteredLetters
             } else {
                 if (!ev.target.classList.contains('disabled')) {
                     // console.log('odejmuje')
@@ -95,18 +83,23 @@ const listenLetter = (item, tries, finalAnwser) => {
                 }
 
             }
-
             ev.target.classList.add('disabled');
-
+            img.src = `assets/level${tries<=6? tries : 6}.jpg`;
+            if (countGoodLetters == item.length) {
+                winnerOrLoser.textContent = 'Wygrałeś';
+                isStillInGame = false;
+            }
             if (tries == 6) {
                 winnerOrLoser.textContent = 'Przegrałeś';
+                isStillInGame = false;
             }
-            img.src = `assets/level${tries<=6? tries : 6}.jpg`
-                // console.log(tries)
+
         }
-        // console.log([...letterContainer.children]);
-        [...letterContainer.children].forEach(element => {
-            // console.log('element')
-            element.addEventListener('click', (ev) => checkLetter(ev));
-        })
+    }
+
+
+
+    [...letterContainer.children].forEach(element => {
+        element.addEventListener('click', (ev) => checkLetter(ev));
+    })
 }
